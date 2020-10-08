@@ -1,6 +1,8 @@
 #include "deck.h"
 #include "card.h"
+#include <algorithm>
 #include <iostream>
+#include <random>
 #include <vector>
 
 using namespace std;
@@ -26,19 +28,26 @@ void Deck::prepare() {
 
     // make cards
     for (i = 0; i < n_decks; i++) {
-        for (string &this_symbol : symbols) {
+        for (auto &this_symbol : symbols) {
             for (j = 1; j < 14; j++) {
                 cards.push_back(Card(this_symbol, j));
             }
         }
     }
     // DEBUG
-    for (Card &this_card : cards) {
-        this_card.show();
-    }
+    // for (auto &this_card : cards) {
+    //     this_card.show();
+    // }
 }
 // TODO
 void Deck::shuffle() {
+    auto rng = default_random_engine{};
+    // explicit to avoid confusion
+    std::shuffle(begin(cards), end(cards), rng);
+    // DEBUG
+    // for (auto &this_card : cards) {
+    //     this_card.show();
+    // }
 }
 // TODO
 // Card Deck::deal() {

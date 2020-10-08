@@ -1,18 +1,17 @@
 #ifndef GAME_H
 #define GAME_H
 #include "deck.h"
-
+#include "player.h"
 class Game {
   public:
     Game();
-    Game(int level, int n_player);
-    ~Game();
+    Game(int level);
     void play();
 
   private:
-    int *bets;
+    int bet;
     int _difficulty;
-    int _n_player;
+
     Deck decks;
 };
 

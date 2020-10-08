@@ -8,19 +8,20 @@ class Player {
   public:
     Player();
     Player(string name, int money);
-    ~Player();
     void hit();
     void stand();
 
   protected:
-    string name;
+    string _name;
     void bet(int amount);
     void double_down();
     void split();
     void surrender();
+    void win();
+    void lose();
 
   private:
-    int money;
+    int _money;
     int wins;
     int loses;
     double win_rate;
@@ -30,7 +31,6 @@ class Dealer : public Player {
   public:
     Dealer();
     Dealer(string name);
-    ~Dealer();
 };
 
 #endif
