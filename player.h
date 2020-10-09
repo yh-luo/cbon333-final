@@ -1,15 +1,20 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include "card.h"
 #include <iostream>
-
+#include <vector>
 using namespace std;
 
 class Player {
   public:
     Player();
-    Player(string name, int money);
-    void hit();
+    Player(string name);
+    void show_cards();
+    void hit(Card card);
     void stand();
+    void save();
+    void load(string fname);
+    friend class Game;
 
   protected:
     string _name;
@@ -21,10 +26,12 @@ class Player {
     void lose();
 
   private:
-    int _money;
+    int money;
+    int bets;
     int wins;
     int loses;
     double win_rate;
+    vector<Card> cards;
 };
 
 class Dealer : public Player {

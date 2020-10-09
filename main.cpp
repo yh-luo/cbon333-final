@@ -5,7 +5,8 @@
 using namespace std;
 int main() {
     char ch;
-    string player_name;
+    string player_name = "John";
+    Player player;
     Game game;
     // greetings
     cout << "Do you want to introduce yourself? (y/n)" << endl;
@@ -17,9 +18,10 @@ int main() {
         cout << "Hello, not world, but " << player_name << "!" << endl;
         break;
     default:
-        cout << "Ok, let's call you John." << endl;
+        cout << "Ok, let's call you " << player_name << "." << endl;
     }
+    player = Player(player_name);
     // play
-    game.play();
+    game.play(player);
     return 0;
 }

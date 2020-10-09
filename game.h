@@ -4,15 +4,14 @@
 #include "player.h"
 class Game {
   public:
-    Game();
-    Game(int level);
-    void play();
+    void play(Player &plyr);
+    void play(Player &plyr, Deck &dk);
+    void adjust(int n);
 
   private:
-    int bet;
-    int _difficulty;
-
+    int act(Player &plyr);
     Deck decks;
+    Dealer dealer;
 };
 
 #endif

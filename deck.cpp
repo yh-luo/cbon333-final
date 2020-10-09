@@ -8,12 +8,12 @@
 using namespace std;
 
 Deck::Deck() {
-    n_decks = 1;
+    n_decks = 4;
 }
 Deck::Deck(int n) {
-    if (n < 1) {
-        cout << "Invalid number of decks, set to 1." << endl;
-        n_decks = 1;
+    if (n < 1 || n > 4) {
+        cout << "Invalid number of decks, set to 4." << endl;
+        n_decks = 4;
     } else {
         n_decks = n;
     }
@@ -39,9 +39,10 @@ void Deck::prepare() {
     //     this_card.show();
     // }
 }
-// TODO
+
 void Deck::shuffle() {
-    auto rng = default_random_engine{};
+    std::random_device rd;
+    auto rng = std::default_random_engine { rd() };
     // explicit to avoid confusion
     std::shuffle(begin(cards), end(cards), rng);
     // DEBUG
@@ -49,6 +50,11 @@ void Deck::shuffle() {
     //     this_card.show();
     // }
 }
+
 // TODO
-// Card Deck::deal() {
-// }
+Card Deck::deal() {
+    Card this_card;
+    this_card = cards[0];
+    cards.erase(cards.begin());
+    return this_card;
+}

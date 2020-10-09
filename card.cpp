@@ -12,5 +12,5 @@ Card::Card(string symbol, int number) {
     _number = number;
 }
 void Card::show() {
-    cout << _symbol << _number << endl;
+    cout << _symbol << _number;
 }
