@@ -16,15 +16,14 @@ void Game::play(Player &plyr) {
     int amt;
     int act;
     int done = 0;
-    int blackjack = 0;
 
     decks = Deck();
     decks.prepare();
     decks.shuffle();
 
     // bet
-    cout << "Game started!" << endl;
-    cout << "Place your bet:" << endl;
+    plyr.show_info();
+    cout << "Place your bet: ";
     cin >> amt;
     plyr.bet(amt);
     // first hand
@@ -41,6 +40,9 @@ void Game::play(Player &plyr) {
         } else if (plyr_total > 21) {
             cout << "Busted! ";
             plyr.lose();
+            // clean-up
+            plyr.cards.clear();
+            dealer.cards.clear();
             return;
         } else if (plyr_total == 21) {
             done = 1;
@@ -92,6 +94,9 @@ void Game::play(Player &plyr) {
             done = 1;
         } else if (dlyr_total > 21) {
             plyr.win();
+            // clean-up
+            plyr.cards.clear();
+            dealer.cards.clear();
             return;
         } else if (dlyr_total >= 17) {
             done = 1;
@@ -108,12 +113,10 @@ void Game::play(Player &plyr) {
     } else if (plyr_total < dlyr_total) {
         plyr.lose();
     }
-}
-// TODO: reuse decks
-void Game::play(Player &plyr, Deck &dk) {
-    decks = dk;
-    decks.prepare();
-    decks.shuffle();
+
+    // clean-up
+    plyr.cards.clear();
+    dealer.cards.clear();
 }
 void Game::show_table(Player &plyr) {
     cout << endl;

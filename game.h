@@ -7,13 +7,12 @@ class Game {
   public:
     void adjust(int n);
     void play(Player &plyr);
-    void play(Player &plyr, Deck &dk);
     void show_table(Player &plyr);
+
   private:
     Deck decks;
     Dealer dealer;
 };
 // helper function
 void sleep(float seconds);
-
 #endif

@@ -3,6 +3,7 @@
 #include "card.h"
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 class Player {
@@ -25,6 +26,7 @@ class Player {
     void surrender();
     void win();
     void lose();
+    void show_info();
 
   private:
     int money;

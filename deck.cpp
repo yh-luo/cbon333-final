@@ -22,10 +22,11 @@ Deck::Deck(int n) {
 void Deck::prepare() {
     vector<string> symbols{"♣", "♦", "♥", "♠"};
     int i, j;
-    card_numbers = n_decks * 52;
-    // allocate memory for cards
-    cards.reserve(card_numbers);
 
+    // allocate memory for cards
+    card_numbers = n_decks * 52;
+    cards.reserve(card_numbers);
+    cards.clear();
     // make cards
     for (i = 0; i < n_decks; i++) {
         for (auto &this_symbol : symbols) {
@@ -35,15 +36,12 @@ void Deck::prepare() {
         }
     }
 }
-
 void Deck::shuffle() {
     std::random_device rd;
     auto rng = std::default_random_engine{rd()};
     // explicit to avoid confusion
     std::shuffle(begin(cards), end(cards), rng);
 }
-
-// TODO
 Card Deck::deal() {
     Card this_card;
     this_card = cards[0];

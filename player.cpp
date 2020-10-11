@@ -82,22 +82,27 @@ int Player::get_points() {
     return total;
 }
 void Player::bet(int amount) {
+    // check money
+    if (money < bets) {
+        cout << "You don't have enough money." << endl;
+        return;
+    }
     bets += amount;
 }
 void Player::double_down() {
     // check money
     if (money < bets) {
         cout << "You don't have enough money." << endl;
-    } else {
-        bets *= 2;
+        return;
     }
+    bets *= 2;
 }
 // TODO
 void Player::split() {
 }
 void Player::surrender() {
     bets /= 2;
-    cout << "You lose " << bets <<" due to surrender!" << endl;
+    cout << "You lose " << bets << " due to surrender!" << endl;
     money -= bets;
     bets = 0;
     loses += 1;
@@ -117,7 +122,15 @@ void Player::lose() {
     loses += 1;
     win_rate = (double)wins / (wins + loses);
 }
-
+void Player::show_info() {
+    cout << "--------------------" << endl;
+    cout << "Name: " << _name << endl;
+    cout << "Money: " << money << endl;
+    cout << "Wins: " << wins << endl;
+    cout << "Loses: " << loses << endl;
+    cout << "Win rate: " << win_rate << endl;
+    cout << "--------------------" << endl;
+}
 Dealer::Dealer() {
     _name = "Winner Dealer";
 }
