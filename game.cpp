@@ -72,6 +72,9 @@ void Game::play(Player &plyr) {
             case 4:
                 if (plyr.cards.size() == 2) {
                     plyr.surrender();
+                    // clean-up
+                    plyr.cards.clear();
+                    dealer.cards.clear();
                     return;
                 } else {
                     cout << "Invalid actions!" << endl;

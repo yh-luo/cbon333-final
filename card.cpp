@@ -18,5 +18,14 @@ Card::Card(string symbol, int number) {
     }
 }
 void Card::show() {
-    cout << _symbol << _number;
+    if (_number == 11) {
+        cout << _symbol << "J";
+    } else if(_number == 12) {
+        cout << _symbol << "Q";
+    } else if (_number == 13) {
+        cout << _symbol << "K";
+    } else {
+        cout << _symbol << _number;
+    }
+    
 }
