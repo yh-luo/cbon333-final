@@ -20,11 +20,9 @@ Player::Player(string name) {
     loses = 0;
     win_rate = 0;
 }
-vector<Card> Player::get_cards() {
-    return cards;
-}
+
 void Player::show_cards() {
-    for (auto &this_card : get_cards()) {
+    for (auto &this_card : cards) {
         this_card.show();
         cout << " ";
     }
@@ -49,6 +47,42 @@ void Player::save() {
 // TODO
 void Player::load(string fname) {
 }
+int Player::get_points(){
+    int total = 0;
+    int tmp_total = 0;
+    int aces = 0;
+    int faces = 0;
+    int i;
+    // check for blackjack
+    if (cards.size() == 2) {
+        for (auto &this_card : cards) {
+            if (this_card.is_ace == 1) {
+                aces++;
+            } else if (this_card._number >= 10) {
+                faces++;
+            }
+        }
+        if (aces == 1 && faces == 1)
+            return -1;
+    }
+    for (auto &this_card : cards) {
+        if (this_card.is_ace == 1) {
+            aces++;
+        }
+        total += min(this_card._number, 10);
+    }
+    // check for aces
+    if (aces == 0 && total > 21)
+        return total;
+
+    for (i = 0; i < aces; i++) {
+        if (total > 11)
+            break;
+        total += 10;
+    }
+
+    return total;
+}
 void Player::bet(int amount) {
     bets += amount;
 }
@@ -58,7 +92,6 @@ void Player::double_down() {
     if (money < bets) {
         cout << "You don't have enough money." << endl;
     } else {
-        money -= bets;
         bets *= 2;
     }
 }
@@ -66,11 +99,11 @@ void Player::double_down() {
 void Player::split() {
 }
 void Player::surrender() {
+    cout << "You lose half the bets due to surrender!" << endl;
     money -= bets / 2;
     bets = 0;
     loses += 1;
     win_rate = (double)wins / (wins + loses);
-    cout << "You lose half the bets due to surrender!" << endl;
 }
 void Player::win() {
     cout << "You win " << bets << "!" << endl;
@@ -80,7 +113,7 @@ void Player::win() {
     win_rate = (double)wins / (wins + loses);
 }
 void Player::lose() {
-    cout << "Busted! You lose " << bets << "!" << endl;
+    cout << "You lose " << bets << "!" << endl;
     money -= bets;
     bets = 0;
     loses += 1;
@@ -92,17 +125,4 @@ Dealer::Dealer() {
 }
 Dealer::Dealer(string name) {
     _name = name;
-}
-void Dealer::show_cards() {
-    vector<Card> current_cards = get_cards();
-    // first hand
-    if (current_cards.size() == 2) {
-        current_cards.front().show();
-    } else {
-        for (auto &this_card : get_cards()) {
-            this_card.show();
-            cout << " ";
-        }
-    }
-    cout << endl;
 }

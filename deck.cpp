@@ -20,7 +20,7 @@ Deck::Deck(int n) {
 }
 
 void Deck::prepare() {
-    vector<string> symbols{"clubs", "diamonds", "hearts", "spades"};
+    vector<string> symbols{"♣", "♦", "♥", "♠"};
     int i, j;
     card_numbers = n_decks * 52;
     // allocate memory for cards

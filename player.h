@@ -9,12 +9,12 @@ class Player {
   public:
     Player();
     Player(string name);
-    vector<Card> get_cards();
     void show_cards();
     void hit(Card card);
     void stand();
     void save();
     void load(string fname);
+    int get_points();
     friend class Game;
 
   protected:
@@ -39,7 +39,6 @@ class Dealer : public Player {
   public:
     Dealer();
     Dealer(string name);
-    void show_cards();
 };
 
 #endif

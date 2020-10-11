@@ -9,7 +9,7 @@ class Card {
     Card();
     Card(string symbol, int number);
     void show();
-    friend class Game;
+    friend class Player;
 
   private:
     string _symbol;
