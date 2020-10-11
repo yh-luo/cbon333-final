@@ -18,14 +18,15 @@ Card::Card(string symbol, int number) {
     }
 }
 void Card::show() {
-    if (_number == 11) {
+    if (_number == 1) {
+        cout << _symbol << "A";
+    } else if (_number == 11) {
         cout << _symbol << "J";
-    } else if(_number == 12) {
+    } else if (_number == 12) {
         cout << _symbol << "Q";
     } else if (_number == 13) {
         cout << _symbol << "K";
     } else {
         cout << _symbol << _number;
     }
-    
 }

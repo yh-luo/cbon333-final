@@ -23,9 +23,13 @@ void Game::play(Player &plyr) {
 
     // bet
     plyr.show_info();
-    cout << "Place your bet: ";
-    cin >> amt;
-    plyr.bet(amt);
+    while (1) {
+        cout << "Place your bet: ";
+        cin >> amt;
+        if (plyr.bet(amt))
+            break;
+    }
+
     // first hand
     plyr.hit(decks.deal());
     dealer.hit(decks.deal());
@@ -93,8 +97,12 @@ void Game::play(Player &plyr) {
         show_table(plyr);
         sleep(1);
         dlyr_total = dealer.get_points();
-        if (dlyr_total == -1) {
-            done = 1;
+        if (dlyr_total == -1 && plyr_total != -1) {
+            plyr.lose();
+            // clean-up
+            plyr.cards.clear();
+            dealer.cards.clear();
+            return;
         } else if (dlyr_total > 21) {
             plyr.win();
             // clean-up

@@ -81,13 +81,18 @@ int Player::get_points() {
 
     return total;
 }
-void Player::bet(int amount) {
+bool Player::bet(int amount) {
+    if (amount <= 0) {
+        cout << "Invalid value" << endl;
+        return false;
+    }
     // check money
-    if (money < bets) {
+    if (money < amount) {
         cout << "You don't have enough money." << endl;
-        return;
+        return false;
     }
     bets += amount;
+    return true;
 }
 void Player::double_down() {
     // check money
