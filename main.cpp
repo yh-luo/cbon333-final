@@ -4,14 +4,13 @@
 
 using namespace std;
 int main() {
-    char ch;
     string player_name = "John";
     Player player;
     Game game;
     // greetings
-    cout << "What's your name (1-80 characters)?" << endl;
+    cout << "What's your name?" << endl;
     cin >> player_name;
-    cout << "Hello, not world, but " << player_name << "!" << endl;
+    cout << "Hello, not world, but " << player_name << "!" << endl << endl;
     player = Player(player_name);
     // play
     game.play(player);

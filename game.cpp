@@ -2,6 +2,7 @@
 #include "deck.h"
 #include "player.h"
 #include <algorithm> // std::min
+#include <ctime>
 #include <iostream>
 
 using namespace std;
@@ -69,7 +70,7 @@ void Game::play(Player &plyr) {
             case 4:
                 if (plyr.cards.size() == 2) {
                     plyr.surrender();
-                    done = 1;
+                    return;
                 } else {
                     cout << "Invalid actions!" << endl;
                     break;
@@ -85,6 +86,7 @@ void Game::play(Player &plyr) {
     done = 0;
     while (done != 1) {
         show_table(plyr);
+        sleep(1);
         dlyr_total = dealer.get_points();
         if (dlyr_total == -1) {
             done = 1;
@@ -98,7 +100,7 @@ void Game::play(Player &plyr) {
         }
     }
     // final check
-    show_table(plyr);
+    sleep(1);
     if (plyr_total == dlyr_total) {
         cout << "No one wins." << endl;
     } else if (plyr_total > dlyr_total) {
@@ -119,4 +121,11 @@ void Game::show_table(Player &plyr) {
     dealer.show_cards();
     cout << "Your cards: ";
     plyr.show_cards();
+}
+void sleep(float seconds) {
+    clock_t startClock = clock();
+    float secondsAhead = seconds * CLOCKS_PER_SEC;
+    // do nothing until the elapsed time has passed.
+    while (clock() < startClock + secondsAhead) {
+    };
 }

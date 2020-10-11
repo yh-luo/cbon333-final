@@ -31,8 +31,6 @@ void Player::show_cards() {
 void Player::hit(Card card) {
     cards.push_back(card);
 }
-
-// TODO
 void Player::save() {
     ofstream f;
     f.open(_name + ".txt");
@@ -47,7 +45,7 @@ void Player::save() {
 // TODO
 void Player::load(string fname) {
 }
-int Player::get_points(){
+int Player::get_points() {
     int total = 0;
     int tmp_total = 0;
     int aces = 0;
@@ -86,7 +84,6 @@ int Player::get_points(){
 void Player::bet(int amount) {
     bets += amount;
 }
-// TODO
 void Player::double_down() {
     // check money
     if (money < bets) {
@@ -99,8 +96,9 @@ void Player::double_down() {
 void Player::split() {
 }
 void Player::surrender() {
-    cout << "You lose half the bets due to surrender!" << endl;
-    money -= bets / 2;
+    bets /= 2;
+    cout << "You lose " << bets <<" due to surrender!" << endl;
+    money -= bets;
     bets = 0;
     loses += 1;
     win_rate = (double)wins / (wins + loses);

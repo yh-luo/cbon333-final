@@ -13,5 +13,7 @@ class Game {
     Deck decks;
     Dealer dealer;
 };
+// helper function
+void sleep(float seconds);
 
 #endif
