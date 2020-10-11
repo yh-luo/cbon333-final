@@ -49,6 +49,7 @@ void Player::load(string fname) {
 }
 // TODO
 void Player::bet(int amount) {
+    bets += amount;
 }
 // TODO
 void Player::double_down() {
@@ -67,12 +68,14 @@ void Player::win() {
     bets = 0;
     wins += 1;
     win_rate = (double)wins / (wins + loses);
+    cout << "You win!" << endl;
 }
 void Player::lose() {
     money -= bets;
     bets = 0;
     loses += 1;
     win_rate = (double)wins / (wins + loses);
+    cout << "You lose!" << endl;
 }
 
 Dealer::Dealer() {

@@ -9,10 +9,12 @@ class Card {
     Card();
     Card(string symbol, int number);
     void show();
+    friend class Game;
 
   private:
     string _symbol;
     int _number;
+    int is_ace;
 };
 
 #endif
