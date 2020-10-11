@@ -9,6 +9,7 @@ class Player {
   public:
     Player();
     Player(string name);
+    vector<Card> get_cards();
     void show_cards();
     void hit(Card card);
     void stand();
@@ -38,6 +39,7 @@ class Dealer : public Player {
   public:
     Dealer();
     Dealer(string name);
+    void show_cards();
 };
 
 #endif

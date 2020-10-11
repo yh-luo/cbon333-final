@@ -2,6 +2,7 @@
 #include "deck.h"
 #include "player.h"
 #include <iostream>
+#include <algorithm>    // std::min
 
 using namespace std;
 
@@ -23,13 +24,14 @@ void Game::play(Player &plyr) {
     dealer.hit(decks.deal());
     plyr.hit(decks.deal());
 
-    // TODO
+    // player's action
     while (done != 1) {
+        cout << endl;
         cout << "Dealer's cards: ";
         dealer.show_cards();
         cout << "Your cards: ";
         plyr.show_cards();
-        // check first hand
+
         rst = check(plyr);
         switch (rst) {
         case 1:
@@ -42,7 +44,12 @@ void Game::play(Player &plyr) {
             break;
         }
         // action
-        cout << "Actions: 1=Hit, 2=Stand, 3=Double down, 4=Surrender: ";
+        cout << "1=Hit, 2=Stand, 3=Double down";
+        if (plyr.cards.size() == 2) {
+            cout << ", 4=Surrender: ";
+        } else {
+            cout << ": ";
+        }
         cin >> act;
         switch (act) {
         // hit
@@ -58,17 +65,23 @@ void Game::play(Player &plyr) {
             plyr.bet(plyr.bets);
             plyr.hit(decks.deal());
             break;
-        // surrender
-        // FIXME: only first hand
+        // surrender (only first hand)
         case 4:
-            plyr.surrender();
-            done = 1;
+            if (plyr.cards.size() == 2) {
+                plyr.surrender();
+                done = 1;
+            } else {
+                cout << "Invalid actions!" << endl;
+                break;
+            }
             break;
         default:
             cout << "Invalid actions!" << endl;
             break;
         }
     }
+    // dealer's action
+    dealer.hit(decks.deal());
 }
 // TODO: reuse decks
 void Game::play(Player &plyr, Deck &dk) {
@@ -91,7 +104,7 @@ int Game::check(Player &plyr) {
         for (auto &this_card : plyr.cards) {
             if (this_card.is_ace == 1) {
                 aces++;
-            } else if (this_card._number == 10) {
+            } else if (this_card._number >= 10) {
                 faces++;
             }
         }
@@ -102,7 +115,7 @@ int Game::check(Player &plyr) {
         if (this_card.is_ace == 1) {
             aces++;
         }
-        total += this_card._number;
+        total += min(this_card._number, 10);
     }
     // check for aces
     if (aces == 0 && total > 21)

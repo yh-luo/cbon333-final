@@ -34,21 +34,13 @@ void Deck::prepare() {
             }
         }
     }
-    // DEBUG
-    // for (auto &this_card : cards) {
-    //     this_card.show();
-    // }
 }
 
 void Deck::shuffle() {
     std::random_device rd;
-    auto rng = std::default_random_engine { rd() };
+    auto rng = std::default_random_engine{rd()};
     // explicit to avoid confusion
     std::shuffle(begin(cards), end(cards), rng);
-    // DEBUG
-    // for (auto &this_card : cards) {
-    //     this_card.show();
-    // }
 }
 
 // TODO
