@@ -21,7 +21,7 @@ class Player {
 
   protected:
     string _name;
-    int bet(int amount);
+    bool bet(int amount);
     void double_down();
     void split();
     void surrender();

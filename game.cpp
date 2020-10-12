@@ -15,7 +15,6 @@ void Game::play(Player &plyr) {
     int dlyr_total;
     int amt;
     int act;
-    bool got_bet = false;
     bool plyr_done = false;
     bool dlyr_done = false;
     bool need_check = false;
@@ -25,20 +24,17 @@ void Game::play(Player &plyr) {
 
     // bet
     plyr.show_info();
-
-    while (!got_bet) {
+    if (plyr.money <= 0) {
+        cout << "You don't have any money to play now." << endl;
+             << "Maybe go get some money (wink)?" << endl;
+        return;
+    }
+    while (true) {
         cout << "Place your bet: ";
         // make sure got integer
         check_input(amt);
-        switch (plyr.bet(amt)) {
-        case -1:
-            return;
-        case 0:
+        if (plyr.bet(amt))
             break;
-        case 1:
-            got_bet = true;
-            break;
-        }
     }
 
     // first hand
@@ -50,6 +46,7 @@ void Game::play(Player &plyr) {
     while (!plyr_done) {
         show_table(plyr);
         plyr_total = plyr.get_points();
+        sleep(0.5);
         if (plyr_total == -1) {
             cout << "Blackjack!" << endl;
             need_check = true;
@@ -91,6 +88,7 @@ void Game::play(Player &plyr) {
                 if (plyr.cards.size() == 2) {
                     plyr.surrender();
                     dlyr_done = true;
+                    plyr_done = true;
                 } else {
                     cout << "You can only surrender in the first hand." << endl;
                     break;
@@ -107,7 +105,7 @@ void Game::play(Player &plyr) {
     while (!dlyr_done) {
         show_table(plyr);
         dlyr_total = dealer.get_points();
-        sleep(1);
+        sleep(0.5);
         // player got blackjack
         if (plyr_total == -1) {
             if (dlyr_total == -1) {

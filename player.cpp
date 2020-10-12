@@ -64,8 +64,7 @@ int Player::get_points() {
         for (auto &this_card : cards) {
             if (this_card.is_ace) {
                 aces++;
-            }
-            else if (this_card._number >= 10) {
+            } else if (this_card._number >= 10) {
                 faces++;
             }
         }
@@ -90,28 +89,23 @@ int Player::get_points() {
 
     return total;
 }
-int Player::bet(int amount) {
-    if (money <= 0) {
-        cout << "You don't have any money to play now."
-             << "Maybe go get some money (wink)?" << endl;
-        return -1;
-    }
+bool Player::bet(int amount) {
     if (amount <= 0) {
         cout << "Invalid value" << endl;
-        return 0;
+        return false;
     }
     // check money
     if (amount > money) {
         cout << "You don't have enough money." << endl;
-        return 0;
+        return false;
     }
     bets += amount;
-    return 1;
+    return true;
 }
 void Player::double_down() {
     // check money
-    if (money < bets) {
-        cout << "You don't have enough money." << endl;
+    if (money < bets * 2) {
+        cout << "You don't have enough money. Only hit." << endl;
         return;
     }
     bets *= 2;
