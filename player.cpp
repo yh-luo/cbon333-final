@@ -9,6 +9,7 @@ using namespace std;
 Player::Player() {
     _name = "Unnamed";
     money = 100;
+    bets = 0;
     wins = 0;
     loses = 0;
     win_rate = 0;
@@ -16,6 +17,7 @@ Player::Player() {
 Player::Player(string name) {
     _name = name;
     money = 100;
+    bets = 0;
     wins = 0;
     loses = 0;
     win_rate = 0;
@@ -34,16 +36,22 @@ void Player::hit(Card card) {
 void Player::save() {
     ofstream f;
     f.open(_name + ".txt");
-    f << "name:" << _name << endl;
-    f << "money:" << money << endl;
-    f << "wins:" << wins << endl;
-    f << "loses:" << loses << endl;
-    f << "win_rate:" << win_rate << endl;
+    f << _name << endl;
+    f << money << endl;
+    f << wins << endl;
+    f << loses << endl;
+    f << win_rate << endl;
     f.close();
-    cout << "Progress saved" << endl;
+    cout << "Progress saved." << endl;
 }
 // TODO
 void Player::load(string fname) {
+    ifstream f(fname);
+    string line;
+    if (f.is_open()) {
+        f >> _name >> money >> wins >> loses >> win_rate;
+    }
+    f.close();
 }
 int Player::get_points() {
     int total = 0;
@@ -54,9 +62,10 @@ int Player::get_points() {
     // check for blackjack
     if (cards.size() == 2) {
         for (auto &this_card : cards) {
-            if (this_card.is_ace == 1) {
+            if (this_card.is_ace) {
                 aces++;
-            } else if (this_card._number >= 10) {
+            }
+            else if (this_card._number >= 10) {
                 faces++;
             }
         }
@@ -64,7 +73,7 @@ int Player::get_points() {
             return -1;
     }
     for (auto &this_card : cards) {
-        if (this_card.is_ace == 1) {
+        if (this_card.is_ace) {
             aces++;
         }
         total += min(this_card._number, 10);
@@ -81,18 +90,23 @@ int Player::get_points() {
 
     return total;
 }
-bool Player::bet(int amount) {
+int Player::bet(int amount) {
+    if (money <= 0) {
+        cout << "You don't have any money to play now."
+             << "Maybe go get some money (wink)?" << endl;
+        return -1;
+    }
     if (amount <= 0) {
         cout << "Invalid value" << endl;
-        return false;
+        return 0;
     }
     // check money
-    if (money < amount) {
+    if (amount > money) {
         cout << "You don't have enough money." << endl;
-        return false;
+        return 0;
     }
     bets += amount;
-    return true;
+    return 1;
 }
 void Player::double_down() {
     // check money

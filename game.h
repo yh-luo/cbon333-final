@@ -15,4 +15,5 @@ class Game {
 };
 // helper function
 void sleep(float seconds);
+void check_input(int &var);
 #endif

@@ -15,18 +15,18 @@ class Player {
     void stand();
     void save();
     void load(string fname);
+    void show_info();
     int get_points();
     friend class Game;
 
   protected:
     string _name;
-    bool bet(int amount);
+    int bet(int amount);
     void double_down();
     void split();
     void surrender();
     void win();
     void lose();
-    void show_info();
 
   private:
     int money;

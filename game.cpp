@@ -15,19 +15,30 @@ void Game::play(Player &plyr) {
     int dlyr_total;
     int amt;
     int act;
-    int done = 0;
-
+    bool got_bet = false;
+    bool plyr_done = false;
+    bool dlyr_done = false;
+    bool need_check = false;
     decks = Deck();
     decks.prepare();
     decks.shuffle();
 
     // bet
     plyr.show_info();
-    while (1) {
+
+    while (!got_bet) {
         cout << "Place your bet: ";
-        cin >> amt;
-        if (plyr.bet(amt))
+        // make sure got integer
+        check_input(amt);
+        switch (plyr.bet(amt)) {
+        case -1:
+            return;
+        case 0:
             break;
+        case 1:
+            got_bet = true;
+            break;
+        }
     }
 
     // first hand
@@ -36,20 +47,21 @@ void Game::play(Player &plyr) {
     plyr.hit(decks.deal());
 
     // player's action
-    while (done != 1) {
+    while (!plyr_done) {
         show_table(plyr);
         plyr_total = plyr.get_points();
         if (plyr_total == -1) {
-            done = 1;
+            cout << "Blackjack!" << endl;
+            need_check = true;
+            plyr_done = true;
         } else if (plyr_total > 21) {
             cout << "Busted! ";
             plyr.lose();
-            // clean-up
-            plyr.cards.clear();
-            dealer.cards.clear();
-            return;
+            dlyr_done = true;
+            plyr_done = true;
         } else if (plyr_total == 21) {
-            done = 1;
+            need_check = true;
+            plyr_done = true;
         } else {
             cout << "1=Hit, 2=Stand, 3=Double down";
             if (plyr.cards.size() == 2) {
@@ -57,7 +69,8 @@ void Game::play(Player &plyr) {
             } else {
                 cout << ": ";
             }
-            cin >> act;
+            // make sure got integer
+            check_input(act);
             switch (act) {
             // hit
             case 1:
@@ -65,7 +78,8 @@ void Game::play(Player &plyr) {
                 break;
             // stand
             case 2:
-                done = 1;
+                need_check = true;
+                plyr_done = true;
                 break;
             // double down
             case 3:
@@ -76,53 +90,58 @@ void Game::play(Player &plyr) {
             case 4:
                 if (plyr.cards.size() == 2) {
                     plyr.surrender();
-                    // clean-up
-                    plyr.cards.clear();
-                    dealer.cards.clear();
-                    return;
+                    dlyr_done = true;
                 } else {
-                    cout << "Invalid actions!" << endl;
+                    cout << "You can only surrender in the first hand." << endl;
                     break;
                 }
                 break;
             default:
-                cout << "Invalid actions!" << endl;
+                cout << "Invalid input" << endl;
                 break;
             }
         }
     }
+
     // dealer's action
-    done = 0;
-    while (done != 1) {
+    while (!dlyr_done) {
         show_table(plyr);
-        sleep(1);
         dlyr_total = dealer.get_points();
-        if (dlyr_total == -1 && plyr_total != -1) {
-            plyr.lose();
-            // clean-up
-            plyr.cards.clear();
-            dealer.cards.clear();
-            return;
-        } else if (dlyr_total > 21) {
-            plyr.win();
-            // clean-up
-            plyr.cards.clear();
-            dealer.cards.clear();
-            return;
-        } else if (dlyr_total >= 17) {
-            done = 1;
+        sleep(1);
+        // player got blackjack
+        if (plyr_total == -1) {
+            if (dlyr_total == -1) {
+                cout << "No one wins." << endl;
+                need_check = false;
+                dlyr_done = true;
+            }
         } else {
-            dealer.hit(decks.deal());
+            if (dlyr_total == -1) {
+                plyr.lose();
+                need_check = false;
+                dlyr_done = true;
+            } else if (dlyr_total > 21) {
+                plyr.win();
+                need_check = false;
+                dlyr_done = true;
+            } else if (dlyr_total >= 17) {
+                need_check = true;
+                dlyr_done = true;
+            } else {
+                dealer.hit(decks.deal());
+            }
         }
     }
-    // final check
-    sleep(1);
-    if (plyr_total == dlyr_total) {
-        cout << "No one wins." << endl;
-    } else if (plyr_total > dlyr_total) {
-        plyr.win();
-    } else if (plyr_total < dlyr_total) {
-        plyr.lose();
+
+    if (need_check) {
+        // final check
+        if (plyr_total == dlyr_total) {
+            cout << "No one wins." << endl;
+        } else if (plyr_total > dlyr_total) {
+            plyr.win();
+        } else if (plyr_total < dlyr_total) {
+            plyr.lose();
+        }
     }
 
     // clean-up
@@ -131,15 +150,27 @@ void Game::play(Player &plyr) {
 }
 void Game::show_table(Player &plyr) {
     cout << endl;
+    cout << "Current bets: " << plyr.bets << endl;
     cout << "Dealer's cards: ";
     dealer.show_cards();
     cout << "Your cards: ";
     plyr.show_cards();
 }
+// helper functions
 void sleep(float seconds) {
     clock_t startClock = clock();
     float secondsAhead = seconds * CLOCKS_PER_SEC;
     // do nothing until the elapsed time has passed.
     while (clock() < startClock + secondsAhead) {
     };
+}
+void check_input(int &var) {
+    // make sure got integer
+    cin >> var;
+    while (cin.fail()) {
+        cout << "Invalid input" << endl;
+        cin.clear();
+        cin.ignore(256, '\n');
+        cin >> var;
+    }
 }

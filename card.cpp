@@ -4,17 +4,17 @@
 using namespace std;
 
 Card::Card() {
-    _symbol = "joker";
+    _symbol = "*";
     _number = 0;
-    is_ace = 0;
+    is_ace = false;
 }
 Card::Card(string symbol, int number) {
     _symbol = symbol;
     _number = number;
-    if (symbol == "♠" && number == 1) {
-        is_ace = 1;
+    if (number == 1) {
+        is_ace = true;
     } else {
-        is_ace = 0;
+        is_ace = false;
     }
 }
 void Card::show() {

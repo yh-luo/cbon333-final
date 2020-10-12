@@ -14,7 +14,7 @@ class Card {
   private:
     string _symbol;
     int _number;
-    int is_ace;
+    bool is_ace;
 };
 
 #endif
