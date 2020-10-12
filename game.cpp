@@ -48,7 +48,6 @@ void Game::play(Player &plyr) {
         plyr_total = plyr.get_points();
         sleep(0.5);
         if (plyr_total == -1) {
-            cout << "You got Blackjack!" << endl;
             // check if the dealer has blackjack too
             if (!(dealer.cards.front().is_ace || dealer.cards.front()._number >= 10)) {
                 plyr.win();
