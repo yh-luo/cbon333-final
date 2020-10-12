@@ -4,7 +4,6 @@ author: 羅鈺涵
 theme: Copenhagen
 colortheme: seahorse
 CJKmainfont: Noto Serif CJK SC
-code-block-font-size: \tiny
 ---
 
 ## Goal
