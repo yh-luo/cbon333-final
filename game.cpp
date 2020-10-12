@@ -26,7 +26,7 @@ void Game::play(Player &plyr) {
     plyr.show_info();
     if (plyr.money <= 0) {
         cout << "You don't have any money to play now." << endl;
-             << "Maybe go get some money (wink)?" << endl;
+        cout << "Maybe go get some money (wink)?" << endl;
         return;
     }
     while (true) {
@@ -48,11 +48,11 @@ void Game::play(Player &plyr) {
         plyr_total = plyr.get_points();
         sleep(0.5);
         if (plyr_total == -1) {
-            cout << "Blackjack!" << endl;
+            cout << "You got Blackjack!" << endl;
             need_check = true;
             plyr_done = true;
         } else if (plyr_total > 21) {
-            cout << "Busted! ";
+            cout << "Busted!" << endl;
             plyr.lose();
             dlyr_done = true;
             plyr_done = true;
@@ -95,7 +95,7 @@ void Game::play(Player &plyr) {
                 }
                 break;
             default:
-                cout << "Invalid input" << endl;
+                cout << "Invalid action." << endl;
                 break;
             }
         }
