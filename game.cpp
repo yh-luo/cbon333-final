@@ -150,6 +150,7 @@ void Game::play(Player &plyr) {
     plyr.cards.clear();
     dealer.cards.clear();
 }
+// helper functions
 void Game::show_table(Player &plyr) {
     cout << endl;
     cout << "Current bets: " << plyr.bets << endl;
@@ -158,7 +159,7 @@ void Game::show_table(Player &plyr) {
     cout << "Your cards: ";
     plyr.show_cards();
 }
-// helper functions
+
 void sleep(float seconds) {
     clock_t startClock = clock();
     float secondsAhead = seconds * CLOCKS_PER_SEC;
