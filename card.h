@@ -10,6 +10,7 @@ class Card {
     Card(string symbol, int number);
     void show();
     friend class Player;
+    friend class Game;
 
   private:
     string _symbol;

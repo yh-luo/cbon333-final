@@ -68,8 +68,9 @@ int Player::get_points() {
                 faces++;
             }
         }
-        if (aces == 1 && faces == 1)
+        if (aces == 1 && faces == 1) {
             return -1;
+        }
     }
     for (auto &this_card : cards) {
         if (this_card.is_ace) {
