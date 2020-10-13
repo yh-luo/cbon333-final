@@ -49,7 +49,7 @@ void Game::play(Player &plyr) {
         sleep(0.5);
         if (plyr_total == -1) {
             // check if the dealer has blackjack too
-            if (!(dealer.cards.front().is_ace || dealer.cards.front()._number >= 10)) {
+            if (!dealer.cards.front().is_ace && !dealer.cards.front()._number >= 10) {
                 plyr.win();
                 dlyr_done = true;
             } else {
@@ -57,7 +57,7 @@ void Game::play(Player &plyr) {
             }
             plyr_done = true;
         } else if (plyr_total > 21) {
-            cout << "Busted!" << endl;
+            cout << "Busted!";
             plyr.lose();
             dlyr_done = true;
             plyr_done = true;
@@ -111,25 +111,29 @@ void Game::play(Player &plyr) {
         show_table(plyr);
         dlyr_total = dealer.get_points();
         sleep(0.5);
-        if (dlyr_total == -1 && plyr_total == -1) {
-            cout << "No one wins." << endl;
-            need_check = false;
-            dlyr_done = true;
-        } else if (dlyr_total == -1 && plyr_total != -1) {
-            plyr.lose();
-            need_check = false;
-            dlyr_done = true;
-        } else if (dlyr_total != -1 && plyr_total == -1) {
-            plyr.win();
-            need_check = false;
-            dlyr_done = true;
-        } else if (dlyr_total > 21) {
-            plyr.win();
-            need_check = false;
-            dlyr_done = true;
-        } else if (dlyr_total >= 17) {
-            need_check = true;
-            dlyr_done = true;
+        if (dealer.cards.size() > 1) {
+            if (dlyr_total == -1 && plyr_total == -1) {
+                cout << "No one wins." << endl;
+                need_check = false;
+                dlyr_done = true;
+            } else if (dlyr_total == -1 && plyr_total != -1) {
+                plyr.lose();
+                need_check = false;
+                dlyr_done = true;
+            } else if (dlyr_total != -1 && plyr_total == -1) {
+                plyr.win();
+                need_check = false;
+                dlyr_done = true;
+            } else if (dlyr_total > 21) {
+                plyr.win();
+                need_check = false;
+                dlyr_done = true;
+            } else if (dlyr_total >= 17) {
+                need_check = true;
+                dlyr_done = true;
+            } else {
+                dealer.hit(decks.deal());
+            }
         } else {
             dealer.hit(decks.deal());
         }
