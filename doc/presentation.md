@@ -45,7 +45,7 @@ John
 
 ::: {.columns}
 
-:::: {.column width=0.4}
+:::: {.column width=0.5}
 
 Directory structure
 
@@ -123,7 +123,7 @@ class Player {
 ```
 ::::
 
-:::: {.column width=0.4}
+:::: {.column width=0.5}
 ```cpp
   protected:
     string _name;
