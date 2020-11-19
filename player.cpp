@@ -44,10 +44,9 @@ void Player::save() {
     f.close();
     cout << "Progress saved." << endl;
 }
-// TODO
+
 void Player::load(string fname) {
     ifstream f(fname);
-    string line;
     if (f.is_open()) {
         f >> _name >> money >> wins >> loses >> win_rate;
     }
